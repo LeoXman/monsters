@@ -1,0 +1,8 @@
+Gemfile.lock
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/.bundle
+config/database.yml
+/db/*.sqlite3
