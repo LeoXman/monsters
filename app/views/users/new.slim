@@ -1,0 +1,15 @@
+.container-fluid 
+  col-md-offset-4.col-md-4.col-md-offset-4
+    .panel.panel-default
+      .panel-body
+        h2 Регистрация
+        .col-md-12
+          .row
+            = simple_form_for :user, :url => { :action => "create" }, html: { multipart: true } do |f|
+              .form-inputs
+                = f.input :username, required: true, autofocus: true
+                = f.input :email, required: true, autofocus: true
+                = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
+                = f.input :password_confirmation, required: true
+              .form-actions
+                = f.button :submit, "Sign up", class: "btn btn-raised btn-warning"

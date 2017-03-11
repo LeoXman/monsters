@@ -1,0 +1,32 @@
+.container
+  .col-md-12.well-page
+    .col-md-12
+      .title
+        h1 Здравствуйте, #{@user.username}
+    - if @user_status
+      .col-md-12
+        | Статус: #{@user_status}
+  - unless @own
+    .col-md-12.well-page
+      .col-md-12
+        .title
+          h2 Написать сообщение пользователю
+        .col-md-12
+          .row
+            = simple_form_for ([@user, @user.messages.build]) do |f|
+              = f.input :text, placeholder: "Текст сообщения" 
+              = f.button :submit, :class => "btn btn-raised btn-warning"
+  - if @own
+    - @user.messages.each do |message|
+      - if message.text
+        .col-md-12.well-page
+          .col-md-12
+            .title
+              h2 Ваши сообщения
+          .col-md-12.comment
+            .title-comment
+              h3
+                | От: #{message.title}
+                  
+            p 
+              = message.text

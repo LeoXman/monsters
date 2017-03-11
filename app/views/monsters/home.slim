@@ -1,0 +1,8 @@
+.home-well
+  .container
+    .col-md-offset-2.col-md-8.col-md-offset-2
+      .home-search
+        = simple_form_for :search, :url => { :controller => "monsters", :action => "search" }, html: { multipart: true, class: '', :method => :post } do |f|
+          .form-group.is-empty
+            = f.input :name, required: true, autofocus: true, :class => "form-control col-md-8", placeholder: 'Поиск', label:false
+        

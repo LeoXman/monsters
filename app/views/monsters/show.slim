@@ -1,0 +1,87 @@
+.container(ng-app="single-page-mod")
+  .col-md-12.well-page
+    .col-md-12
+      .title
+        h1 #{@monster.name}
+    .col-md-8
+      | kfkfk
+    .col-md-4
+      h2 Характеристики
+      table.table.table-striped
+        tbody
+          tr
+            td lvl: #{@monster.level}
+          tr
+            td hp: #{@monster.hp}
+          tr
+            td exp: #{@monster.exp}
+          tr
+            td def: #{@monster.def}
+          tr
+            td mdef: #{@monster.mdef}
+          tr
+            td str: #{@monster.str}
+          tr
+            td agi: #{@monster.agi}
+          tr
+            td vit: #{@monster.vit}
+          tr
+            td int: #{@monster.int}
+          tr
+            td dex: #{@monster.dex}
+          tr
+            td luk: #{@monster.luk}
+          tr
+            td scale: #{@monster.scale}
+          tr
+            td own: #{@monster.own}
+          tr
+            td like: #{@monster.like}
+          tr
+            td like: #{@monster.dislike}
+          tr
+            td vote_stamps: #{@monster.vote_stamps}
+    .col-md-12
+      hr
+        .row
+          .col-md-6
+            - if @own
+              p Владелец: #{@own.username}
+            - else
+              p Владелец: admin
+          .col-md-6.text-right
+            .votes
+              span
+                = link_to like_monster_path do
+                  = content_tag(:i, "insert_emoticon", :class=>'material-icons')
+                span.count
+                  = @monster.like
+              span
+                = link_to dislike_monster_path do
+                  = content_tag(:i, "sentiment_very_dissatisfied", :class=>'material-icons')
+                span.count
+                  = @monster.dislike
+            p.text-right
+              = link_to "Редактировать монстра", edit_monster_path, :class => "btn btn-raised btn-warning"
+  .col-md-12.well-page(ng-controller="CommentsCtrl")
+    .col-md-12
+      .title
+        h2 Комментарии
+      .col-md-12
+        .row
+          = simple_form_for ([@monster, @monster.comments.build]) do |f|
+            = f.input :text, placeholder: "Новый комментарий", input_html: { "ng-keyup" => "word_count()", "ng-init" => "comment_words_count=0" } 
+            .count-words
+              | Колличество символов: {{comment_words_count}}
+            = f.button :submit, :class => "btn btn-raised btn-warning"
+      - @monster.comments.each do |comment|
+        - if comment.text
+          .col-md-12.comment
+            .row
+              .title-comment
+                h3
+                  = comment.title
+              p 
+                = comment.text
+              p 
+                | удалить

@@ -1,0 +1,53 @@
+.container.content
+  .monster-nav-links
+    .row
+      a.monster-nav-link href="/monsters?letter=A"  A
+      a.monster-nav-link href="/monsters?letter=B"  B
+      a.monster-nav-link href="/monsters?letter=C"  C
+      a.monster-nav-link href="/monsters?letter=D"  D
+      a.monster-nav-link href="/monsters?letter=E"  E
+      a.monster-nav-link href="/monsters?letter=F"  F
+      a.monster-nav-link href="/monsters?letter=G"  G
+      a.monster-nav-link href="/monsters?letter=H"  H
+      a.monster-nav-link href="/monsters?letter=I"  I
+      a.monster-nav-link href="/monsters?letter=J"  J
+      a.monster-nav-link href="/monsters?letter=K"  K
+      a.monster-nav-link href="/monsters?letter=L"  L
+      a.monster-nav-link href="/monsters?letter=M"  M
+      a.monster-nav-link href="/monsters?letter=N"  N
+      a.monster-nav-link href="/monsters?letter=O"  O
+      a.monster-nav-link href="/monsters?letter=P"  P
+      a.monster-nav-link href="/monsters?letter=Q"  Q
+      a.monster-nav-link href="/monsters?letter=R"  R
+      a.monster-nav-link href="/monsters?letter=S"  S
+      a.monster-nav-link href="/monsters?letter=T"  T
+      a.monster-nav-link href="/monsters?letter=U"  U
+      a.monster-nav-link href="/monsters?letter=V"  V
+      a.monster-nav-link href="/monsters?letter=W"  W
+      a.monster-nav-link href="/monsters?letter=X"  X
+      a.monster-nav-link href="/monsters?letter=Y"  Y
+      a.monster-nav-link href="/monsters?letter=Z"  Z
+  .row  
+    .text-right
+      = link_to "Добавить монстра", new_monster_path, :class => "btn btn-raised btn-warning"
+    - @monsters.each do |monster|
+      .databox
+        h6 
+          = link_to monster.name, monster
+        p 
+          | Lvl: #{monster.level} | 
+          | Hp: #{monster.hp} | 
+          | exp: #{monster.exp} | 
+          | def #{monster.def} | 
+          | mdef #{monster.mdef} | 
+          | str #{monster.str} | 
+          | agi #{monster.agi} | 
+          | vit #{monster.vit} | 
+          | int #{monster.int} | 
+          | dex #{monster.dex} | 
+          | luk #{monster.luk} | 
+          | scale #{monster.scale}
+        p.text-right
+          = link_to "Редактировать монстра", edit_monster_path(monster), :class => "btn btn-raised btn-warning"
+    .text-center
+      = paginate @monsters, :theme => 'twitter-bootstrap-3'

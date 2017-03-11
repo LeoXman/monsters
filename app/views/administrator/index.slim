@@ -1,0 +1,71 @@
+.container.content
+  .monster-nav-links
+    .row
+      a.monster-nav-link href="/administrator?letter=A"  A
+      a.monster-nav-link href="/administrator?letter=B"  B
+      a.monster-nav-link href="/administrator?letter=C"  C
+      a.monster-nav-link href="/administrator?letter=D"  D
+      a.monster-nav-link href="/administrator?letter=E"  E
+      a.monster-nav-link href="/administrator?letter=F"  F
+      a.monster-nav-link href="/administrator?letter=G"  G
+      a.monster-nav-link href="/administrator?letter=H"  H
+      a.monster-nav-link href="/administrator?letter=I"  I
+      a.monster-nav-link href="/administrator?letter=J"  J
+      a.monster-nav-link href="/administrator?letter=K"  K
+      a.monster-nav-link href="/administrator?letter=L"  L
+      a.monster-nav-link href="/administrator?letter=M"  M
+      a.monster-nav-link href="/administrator?letter=N"  N
+      a.monster-nav-link href="/administrator?letter=O"  O
+      a.monster-nav-link href="/administrator?letter=P"  P
+      a.monster-nav-link href="/administrator?letter=Q"  Q
+      a.monster-nav-link href="/administrator?letter=R"  R
+      a.monster-nav-link href="/administrator?letter=S"  S
+      a.monster-nav-link href="/administrator?letter=T"  T
+      a.monster-nav-link href="/administrator?letter=U"  U
+      a.monster-nav-link href="/administrator?letter=V"  V
+      a.monster-nav-link href="/administrator?letter=W"  W
+      a.monster-nav-link href="/administrator?letter=X"  X
+      a.monster-nav-link href="/administrator?letter=Y"  Y
+      a.monster-nav-link href="/administrator?letter=Z"  Z
+  .row  
+    - @monsters.each do |monster|
+      .col-md-12.databox
+        .col-md-6
+          .row
+            .title 
+              = link_to monster.name, monster
+        .col-md-6
+          .row    
+            p.buttons.text-right
+              - if @current_user.id == monster.own
+                span
+                  = link_to add_favorite_monster_path(monster), remote: true, class: "add-favorite" do
+                    = content_tag(:i, "", :class=>'fa fa-user-circle')
+              span  
+                = link_to like_monster_path(monster), remote: true, class: "add-like" do
+                  - if check_like(monster)
+                    = content_tag(:i, "", :class=>'fa fa-thumbs-up')
+                  - else
+                    = content_tag(:i, "", :class=>'fa fa-thumbs-o-up')
+                span.count
+                  = monster.like
+              span  
+                = link_to dislike_monster_path(monster), class: "add-dislike" do
+                  - if check_like(monster)
+                    = content_tag(:i, "", :class=>'fa fa-thumbs-up')
+                  - else
+                    = content_tag(:i, "", :class=>'fa fa-thumbs-o-up')
+                span.count
+                  = monster.dislike
+              span
+                = link_to add_favorite_monster_path(monster), remote: true, class: "add-favorite" do
+                  - if check_favorite(monster.id)
+                    = content_tag(:i, "", :class=>'fa fa-heart')
+                  - else
+                    = content_tag(:i, "", :class=>'fa fa-heart-o')
+              span
+                = link_to edit_monster_path(monster) do
+                  = content_tag(:i, "", :class=>'fa fa-pencil-square-o')
+              span
+                = link_to "/del", remote: true do
+                  = content_tag(:i, "", :class=>'fa fa-trash')

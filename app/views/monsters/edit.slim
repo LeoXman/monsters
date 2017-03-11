@@ -1,0 +1,30 @@
+.container
+  .col-md-12.well-page
+    .col-md-12
+      .title
+        h1 Редактирование монстра #{@monster.name}
+    .col-md-12
+      = simple_form_for :monster, :url => { :action => "create" }, html: { multipart: true } do |f|
+        .form-inputs
+          .col-md-6
+            = f.input :name, required: true, autofocus: true
+            = f.input :level, required: true, autofocus: true
+            = f.input :hp, required: true, autofocus: true
+            = f.input :exp, required: true, autofocus: true
+            = f.input :jexp, required: true, autofocus: true
+            = f.input :atk1, required: true, autofocus: true
+            = f.input :atk2, required: true, autofocus: true
+            = f.input :def, required: true, autofocus: true
+            = f.input :mdef, required: true, autofocus: true
+          .col-md-6
+            = f.input :str, required: true, autofocus: true
+            = f.input :agi, required: true, autofocus: true
+            = f.input :vit, required: true, autofocus: true
+            = f.input :int, required: true, autofocus: true
+            = f.input :dex, required: true, autofocus: true
+            = f.input :luk, required: true, autofocus: true
+            = f.input :scale, required: true, autofocus: true
+            = f.input :race, required: true, autofocus: true
+            = f.input :element, required: true, autofocus: true
+        .form-actions
+          = f.button :submit, "Сохранить", :class => "btn btn-raised btn-warning"

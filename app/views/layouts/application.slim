@@ -1,0 +1,87 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    title Ro
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /
+    /! #GOOGLE FONT
+    link href="http://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700" rel="stylesheet" type="text/css" /
+    link href="http://fonts.googleapis.com/css?family=Lato:400,100,300,700,900" rel="stylesheet" type="text/css" /
+    link href="http://fonts.googleapis.com/css?family=Oswald:400,300,700" rel="stylesheet" type="text/css" /
+  body
+    .navbar.navbar-default.navbar-fixed-top.navbar-home
+      .container
+        .navbar-header
+          button.navbar-toggle data-target=".navbar-responsive-collapse" data-toggle="collapse" type="button" 
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          = link_to 'Главная', root_path, class: 'navbar-brand'
+        .navbar-collapse.collapse.navbar-responsive-collapse
+          ul.nav.navbar-nav
+            li
+              = link_to "Все монстры", monsters_path
+          = simple_form_for :search, :url => { :controller => "monsters", :action => "search" }, html: { multipart: true, class: 'navbar-form navbar-left', :method => :post } do |f|
+            .form-group.is-empty
+              = f.input :name, required: true, autofocus: true, :class => "form-control col-md-8", placeholder: 'Поиск', label:false
+          ul.nav.navbar-nav.navbar-right
+            - if @current_user
+              li.favorites
+                = link_to user_favorites_path(@current_user) do
+                  = content_tag(:i, "assignment", :class=>'material-icons')
+                  span#favorites_count
+                    = @current_user.fav_count if @current_user.fav_count
+            li.dropdown
+              - if @current_user
+                a.dropdown-toggle aria-expanded="false" data-target="#" data-toggle="dropdown" href="bootstrap-elements.html" 
+                  = @current_user.username
+                  b.caret
+                .ripple-container
+                ul.dropdown-menu
+                  li
+                    = link_to "Профиль", @current_user
+                  - if @current_user.admin?
+                    li
+                      a href="/administrator" Админка
+                  li
+                    = link_to "Мои монстры", user_monsters_path
+                  li
+                    = link_to "Добавить монстра", new_monster_path
+                  li.divider
+                  li
+                    = link_to "Выход", sessions_delete_path
+              - else
+                a.dropdown-toggle aria-expanded="false" data-target="#" data-toggle="dropdown" href="bootstrap-elements.html" 
+                  | Вход
+                  b.caret
+                .ripple-container
+                ul.dropdown-menu
+                  li
+                    = link_to "Вход", auth_path
+                  li
+                    = link_to "Регистрация", new_user_path
+  - if flash[:notice]       
+    .alert.alert-dismissible.alert-success
+      .container
+        button.close data-dismiss="alert" type="button"  ×
+        strong 
+          = flash[:notice]  
+  - if flash[:error]       
+    .alert.alert-dismissible.alert-danger
+      .container
+        button.close data-dismiss="alert" type="button"  ×
+        strong 
+          = flash[:error]   
+  .alert.alert-dismissible.alert-success#alert-success
+    .container
+      button.close data-dismiss="alert" type="button"  ×
+      strong 
+  .alert.alert-dismissible.alert-danger#alert-danger
+    .container
+      button.close data-dismiss="alert" type="button"  ×
+      strong 
+                        
+  = yield

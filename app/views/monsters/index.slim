@@ -1,0 +1,89 @@
+.container.content
+  .monster-nav-links
+    .row
+      a.monster-nav-link href="/monsters?letter=A"  A
+      a.monster-nav-link href="/monsters?letter=B"  B
+      a.monster-nav-link href="/monsters?letter=C"  C
+      a.monster-nav-link href="/monsters?letter=D"  D
+      a.monster-nav-link href="/monsters?letter=E"  E
+      a.monster-nav-link href="/monsters?letter=F"  F
+      a.monster-nav-link href="/monsters?letter=G"  G
+      a.monster-nav-link href="/monsters?letter=H"  H
+      a.monster-nav-link href="/monsters?letter=I"  I
+      a.monster-nav-link href="/monsters?letter=J"  J
+      a.monster-nav-link href="/monsters?letter=K"  K
+      a.monster-nav-link href="/monsters?letter=L"  L
+      a.monster-nav-link href="/monsters?letter=M"  M
+      a.monster-nav-link href="/monsters?letter=N"  N
+      a.monster-nav-link href="/monsters?letter=O"  O
+      a.monster-nav-link href="/monsters?letter=P"  P
+      a.monster-nav-link href="/monsters?letter=Q"  Q
+      a.monster-nav-link href="/monsters?letter=R"  R
+      a.monster-nav-link href="/monsters?letter=S"  S
+      a.monster-nav-link href="/monsters?letter=T"  T
+      a.monster-nav-link href="/monsters?letter=U"  U
+      a.monster-nav-link href="/monsters?letter=V"  V
+      a.monster-nav-link href="/monsters?letter=W"  W
+      a.monster-nav-link href="/monsters?letter=X"  X
+      a.monster-nav-link href="/monsters?letter=Y"  Y
+      a.monster-nav-link href="/monsters?letter=Z"  Z
+  - if can? :manage, Monster
+    | Hello
+  .row  
+    - @monsters.each do |monster|
+      .col-md-12.databox
+        .col-md-6
+          .row
+            .title 
+              = link_to monster.name, monster
+        .col-md-6
+          .row    
+            p.buttons.text-right
+              - if @current_user
+                - if @current_user.id == monster.own
+                  span
+                    = link_to add_favorite_monster_path(monster), remote: true, class: "add-favorite" do
+                      = content_tag(:i, "", :class=>'fa fa-user-circle')
+              - if @current_user        
+                span  
+                  = link_to like_monster_path(monster), remote: true, class: "add-like" do
+                    - if check_like(monster)
+                      = content_tag(:i, "", :class=>'fa fa-thumbs-up')
+                    - else
+                      = content_tag(:i, "", :class=>'fa fa-thumbs-o-up')
+                  span.count
+                    = monster.like
+              - else
+                span  
+                  = link_to like_monster_path(monster), remote: true, class: "add-like" do
+                    = content_tag(:i, "", :class=>'fa fa-thumbs-up')
+                  span.count
+                    = monster.like
+              - if @current_user
+                span  
+                  = link_to dislike_monster_path(monster), class: "add-dislike" do
+                    - if check_like(monster)
+                      = content_tag(:i, "", :class=>'fa fa-thumbs-up')
+                    - else
+                      = content_tag(:i, "", :class=>'fa fa-thumbs-o-up')
+                  span.count
+                    = monster.dislike
+              - else
+                span  
+                  = link_to dislike_monster_path(monster), class: "add-dislike" do
+                    = content_tag(:i, "", :class=>'fa fa-thumbs-up')
+                  span.count
+                    = monster.dislike
+              - if @current_user      
+                span
+                  = link_to add_favorite_monster_path(monster), remote: true, class: "add-favorite" do
+                    - if check_favorite(monster.id)
+                      = content_tag(:i, "", :class=>'fa fa-heart')
+                    - else
+                      = content_tag(:i, "", :class=>'fa fa-heart-o')
+              - if @current_user
+                span
+                  = link_to edit_monster_path(monster) do
+                    = content_tag(:i, "", :class=>'fa fa-pencil-square-o')
+    .text-center
+      = paginate @monsters, :theme => 'twitter-bootstrap-3'
