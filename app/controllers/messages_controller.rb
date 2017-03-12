@@ -1,4 +1,4 @@
-# Сообщения пользователей
+# Сообщения между пользователями
 class MessagesController < ApplicationController
   def create
     @user = User.find(params[:user_id])

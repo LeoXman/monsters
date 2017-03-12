@@ -7,7 +7,7 @@ class
 
   def index
     authorize! :index, Monster
-    @letter = Monster.letterize(params[:letter])
+    @letter   = Monster.letterize(params[:letter])
     @monsters = Monster.letter(@letter).page(1).per(10)
   end
 
@@ -50,14 +50,14 @@ class
   # POST /monsters
   # POST /monsters.json
   def create
-    @monster = Monster.create(monster_params)
+    @monster     = Monster.create(monster_params)
     @monster.own = @current_user.id
     @monster.save
     respond_to do |format|
       if @monster.save
         format.html do
           redirect_to @monster,
-                      notice: 'Monster was successfully created.'
+                      notice: 'Монстер создан.'
         end
         format.json do
           render :show,
@@ -76,7 +76,7 @@ class
       if @monster.update(monster_params)
         format.html do
           redirect_to @monster,
-                      notice: 'Monster was successfully updated.'
+                      notice: 'Монстер обновлен.'
         end
         format.json do
           render :show,
@@ -112,25 +112,19 @@ class
     if vote_stamp_check(@monster.id)
       @monster.increment!(:dislike)
       vote_stamp(@monster.id)
-      redirect_to :back,
-                  flash: {
-                    notice: 'Вы успешно проголосовали!'
-                  }
+      redirect_to :back, flash: { notice: 'Вы успешно проголосовали!' }
     else
-      redirect_to :back,
-                  flash: {
-                    error: 'Вы уже проголосовали!'
-                  }
+      redirect_to :back, flash: { error: 'Вы уже проголосовали!' }
     end
   end
 
   def add_favorite
-    @user = User.find(current_user.id)
-    @monster = Monster.find(params[:id])
-    favoritelist = @user.favorites.where(monster_id: params[:id])
-    favorite = true if favoritelist.blank?
-    favorite = @user.favorites.new if favorite
-    favorite.monster_id = @monster.id
+    @user                 = User.find(current_user.id)
+    @monster              = Monster.find(params[:id])
+    favoritelist          = @user.favorites.where(monster_id: params[:id])
+    favorite              = true if favoritelist.blank?
+    favorite              = @user.favorites.new if favorite
+    favorite.monster_id   = @monster.id
     favorite.monster_name = @monster.name
     favorite.save
     respond_to do |format|
@@ -148,14 +142,14 @@ class
   end
 
   def fix_count
-    user = User.find(current_user.id)
+    user           = User.find(current_user.id)
     user.fav_count = user.fav_count + 1
     user.save
   end
 
   def vote_stamp_check(monster)
-    user = current_user.id
-    user = user.to_s
+    user     = current_user.id
+    user     = user.to_s
     @monster = Monster.find(monster)
     stamps = @monster.vote_stamps.to_s
     return false if stamps.include? user
@@ -163,11 +157,11 @@ class
   end
 
   def vote_stamp(monster)
-    user = current_user.id
-    user = user.to_s
+    user     = current_user.id
+    user     = user.to_s
     @monster = Monster.find(monster)
-    stamps = @monster.vote_stamps
-    stamps = stamps.to_s
+    stamps   = @monster.vote_stamps
+    stamps   = stamps.to_s
     @monster.vote_stamps = stamps + ',' + user
     @monster.save
   end
@@ -178,20 +172,8 @@ class
   # end
 
   def monster_params
-    params.require(:monster).permit(
-      :name,
-      :hp,
-      :def,
-      :mdef,
-      :str,
-      :agi,
-      :vit,
-      :int,
-      :dex,
-      :luk,
-      :scale,
-      :own
-    )
+    params.require(:monster).permit(:name, :hp, :def, :mdef, :str, :agi,
+                                    :vit, :int, :dex, :luk, :scale, :own)
   end
 
   def comment_params

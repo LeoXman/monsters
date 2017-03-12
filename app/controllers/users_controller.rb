@@ -37,7 +37,7 @@ class UsersController < ApplicationController
       if @user.update(user_params)
         format.html
         redirect_to @user,
-                    notice: 'User was successfully updated.'
+                    notice: 'Данные пользователя обновлены.'
       else
         format.html { render :edit }
       end
@@ -51,14 +51,14 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       redirect_to users_url,
-                  notice: 'User was successfully destroyed.'
+                  notice: 'Пользователь успешно удален.'
       format.json { head :no_content }
     end
   end
 
   # Аутентификация /auth
   def auth
-    redirect_to root_path, flash: { success: 'Already logged in' } if
+    redirect_to root_path, flash: { success: 'Вход уже выполнен' } if
     current_user
   end
 
