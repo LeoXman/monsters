@@ -5,12 +5,14 @@ class
   load_and_authorize_resource
   skip_authorize_resource only: [:home, :search]
 
+  # Вывод всех монстров
   def index
     authorize! :index, Monster
     @letter   = Monster.letterize(params[:letter])
     @monsters = Monster.letter(@letter).page(1).per(10)
   end
 
+  # Страница результатов поиска монстров
   def search
     search_monsters =
       Monster.where(
@@ -19,8 +21,7 @@ class
     @monsters = search_monsters.page(1).per(10)
   end
 
-  # GET /monsters/1
-  # GET /monsters/1.json
+  # Страница описания монстра
   def show
     authorize! :read, @monster
     @monster = Monster.find(params[:id])
@@ -28,13 +29,13 @@ class
     @own = User.find_by(id: user_id)
   end
 
-  # GET /monsters/new
+  # Форма создание нового монстра
   def new
     authorize! :new, Monster
     @monster = Monster.new
   end
 
-  # GET /monsters/1/edit
+  # Редактирование монстра
   def edit
     @monster = Monster.find(params[:id])
     if check_own?(@monster.own)
@@ -47,8 +48,7 @@ class
     end
   end
 
-  # POST /monsters
-  # POST /monsters.json
+  # Добавление нового монстра в базу
   def create
     @monster     = Monster.create(monster_params)
     @monster.own = @current_user.id
@@ -68,8 +68,7 @@ class
     end
   end
 
-  # PATCH/PUT /monsters/1
-  # PATCH/PUT /monsters/1.json
+  # Обновление монстра
   def update
     @monster = Monster.update(monster_params)
     respond_to do |format|
@@ -87,6 +86,7 @@ class
     end
   end
 
+  # Действие like
   def like
     @monster = Monster.find(params[:id])
     if vote_stamp_check(@monster.id)
@@ -107,6 +107,7 @@ class
     end
   end
 
+  # Действие dislike
   def dislike
     @monster = Monster.find(params[:id])
     if vote_stamp_check(@monster.id)
@@ -118,6 +119,7 @@ class
     end
   end
 
+  # Действие добавления монстра в избранное
   def add_favorite
     @user                 = User.find(current_user.id)
     @monster              = Monster.find(params[:id])
@@ -141,12 +143,14 @@ class
     @current_user.id == id
   end
 
+  # Обновления счетчика избранных монстров
   def fix_count
     user           = User.find(current_user.id)
     user.fav_count = user.fav_count + 1
     user.save
   end
 
+  # Проверка голосовал ли пользователь
   def vote_stamp_check(monster)
     user     = current_user.id
     user     = user.to_s
@@ -156,6 +160,7 @@ class
     return true unless stamps.include? user
   end
 
+  # Отметка, что пользователь проголосовал
   def vote_stamp(monster)
     user     = current_user.id
     user     = user.to_s
@@ -165,11 +170,6 @@ class
     @monster.vote_stamps = stamps + ',' + user
     @monster.save
   end
-
-  # # Use callbacks to share common setup or constraints between actions.
-  # def set_monster
-  #   @monster = Monster.find(params[:id])
-  # end
 
   def monster_params
     params.require(:monster).permit(:name, :hp, :def, :mdef, :str, :agi,

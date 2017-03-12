@@ -1,5 +1,6 @@
 # Сообщения между пользователями
 class MessagesController < ApplicationController
+  # Создание нового сообщения
   def create
     @user = User.find(params[:user_id])
     message = @user.messages.new(message_params)

@@ -1,5 +1,6 @@
 # Users sessions
 class SessionsController < ApplicationController
+  # Новая сессия
   def create
     user =
       User.find_by(
@@ -14,6 +15,7 @@ class SessionsController < ApplicationController
     end
   end
 
+  # Удаление сессии
   def destroy
     if session[:user_id]
       session[:user_id] = nil

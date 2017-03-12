@@ -1,5 +1,6 @@
 # Комментарии к монстрам
 class CommentsController < ApplicationController
+  # Создание нового комментария
   def create
     @monster = Monster.find(params[:monster_id])
     comment = @monster.comments.new(comment_params)

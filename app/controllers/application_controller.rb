@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # Метод для создания сессии по пользвателю.
+  # Метод для создания сессии по пользвателю
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
