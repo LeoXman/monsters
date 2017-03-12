@@ -1,5 +1,5 @@
+# Сообщения пользователей
 class MessagesController < ApplicationController
-
   def create
     @user = User.find(params[:user_id])
     message = @user.messages.new(message_params)
@@ -14,5 +14,4 @@ class MessagesController < ApplicationController
   def message_params
     params.require(:message).permit(:title, :text)
   end
-
 end
