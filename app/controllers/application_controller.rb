@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
 
   # Проверка статуса пользователя
   def user_status
-    if @current_user && @current_user.admin?
-      @user_status = 'admin'
-    else
-      @user_status = 'user'
-    end
+    @user_status = if @current_user && @current_user.admin?
+                     'admin'
+                   else
+                     'user'
+                   end
   end
 
   # Проверка доступа
