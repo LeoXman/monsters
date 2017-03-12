@@ -1,8 +1,7 @@
+# Избранные монстры
 class FavoritesController < ApplicationController
-
   def index
     @user = User.find(params[:user_id])
-    user_monsters = @user.favorites.all
   end
 
   def create
@@ -19,5 +18,4 @@ class FavoritesController < ApplicationController
   def message_params
     params.require(:message).permit(:title, :text)
   end
-
 end
