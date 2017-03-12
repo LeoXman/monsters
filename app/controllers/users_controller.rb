@@ -1,3 +1,4 @@
+# Пользователи
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -10,37 +11,21 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
-    if current_user
-      if current_user.id == params[:id].to_i
-        @own = current_user.id
-      else
-        redirect_to root_path
-      end
-    end
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
+    redirect_to root_path, flash: { error: 'Доступ запрещен' } unless
+                current_user && current_user.id == @user.id
   end
 
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+        format.html do
+          redirect_to @user, notice: 'Успешно зарегистрирован.'
+        end
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        render :new
       end
     end
   end
@@ -50,11 +35,11 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+        format.html
+        redirect_to @user,
+                    notice: 'User was successfully updated.'
       else
         format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,20 +49,20 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html
+      redirect_to users_url,
+                  notice: 'User was successfully destroyed.'
       format.json { head :no_content }
     end
   end
 
   # Аутентификация /auth
   def auth
-    if current_user
-      redirect_to root_path, flash: { success: 'Already logged in' }
-    end
+    redirect_to root_path, flash: { success: 'Already logged in' } if
+    current_user
   end
 
   def list_monsters
-    user = @current_user.id
     user_monsters =
       Monster.where(
         own: @current_user.id
@@ -86,18 +71,12 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-    params.require(:user).permit(
-      :username,
-      :email,
-      :password,
-      :status
-    )
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:username, :email, :password, :status)
   end
 end
