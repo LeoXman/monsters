@@ -135,8 +135,7 @@ class
     favorite.save
     respond_to do |format|
       format.json do
-        render json: @monster,
-               status: :created
+        render json: @monster, status: :created
       end
       fix_count
     end
