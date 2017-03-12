@@ -11,36 +11,21 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    redirect_to root_path,
-                flash: { error: 'Доступ запрещен' } unless current_user.id == @user.id
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
+    redirect_to root_path, flash: { error: 'Доступ запрещен' } unless
+                current_user.id == @user.id
   end
 
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    @user = User.create(user_params)
     respond_to do |format|
       if @user.save
         format.html do
-          redirect_to @user,
-                      notice: 'User was successfully created.'
-        end
-        format.json do
-          render :show,
-                 status: :created,
-                 location: @user
+          redirect_to @user, notice: 'Успешно зарегистрирован.'
         end
       else
-        format.html { render :new }
-        format.json do
-          render json: @user.errors,
-                 status: :unprocessable_entity
-        end
+        render :new
       end
     end
   end
@@ -53,16 +38,8 @@ class UsersController < ApplicationController
         format.html
         redirect_to @user,
                     notice: 'User was successfully updated.'
-        format.json
-        render :show,
-               status: :ok,
-               location: @user
       else
         format.html { render :edit }
-        format.json do
-          render json: @user.errors,
-                 status: :error
-        end
       end
     end
   end
@@ -81,7 +58,8 @@ class UsersController < ApplicationController
 
   # Аутентификация /auth
   def auth
-    redirect_to root_path, flash: { success: 'Already logged in' } if current_user
+    redirect_to root_path, flash: { success: 'Already logged in' } if
+    current_user
   end
 
   def list_monsters
