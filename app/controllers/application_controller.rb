@@ -1,8 +1,6 @@
+# Основной контролер
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
   before_action :current_user, :user_status
 
   private
@@ -14,23 +12,16 @@ class ApplicationController < ActionController::Base
 
   # Проверка статуса пользователя
   def user_status
-    if current_user
-      unless @user_status
-        user = @current_user
-          if @current_user.admin?
-            @user_status = "admin"
-          else
-            @user_status = "user"
-          end
-      end
+    if @current_user && @current_user.admin?
+      @user_status = 'admin'
+    else
+      @user_status = 'user'
     end
   end
 
   # Проверка доступа
   def access
-    unless @user_status == "admin"
-      redirect_to root_path
-      flash[:error] = "Недостаточно прав"
-    end
+    redirect_to root_path, flash[:error] = 'Недостаточно прав' unless
+                           @user_status == 'admin'
   end
 end
