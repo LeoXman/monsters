@@ -11,14 +11,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
-    if current_user
-      if current_user.id == params[:id].to_i
-        @own = current_user.id
-      else
-        redirect_to root_path
-      end
-    end
+    redirect_to root_path,
+                flash: { error: 'Доступ запрещен' } unless current_user.id == @user.id
   end
 
   # GET /users/new
@@ -87,10 +81,7 @@ class UsersController < ApplicationController
 
   # Аутентификация /auth
   def auth
-    if current_user
-      redirect_to root_path,
-                  flash: { success: 'Already logged in' }
-    end
+    redirect_to root_path, flash: { success: 'Already logged in' } if current_user
   end
 
   def list_monsters
@@ -108,11 +99,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(
-      :username,
-      :email,
-      :password,
-      :status
-    )
+    params.require(:user).permit(:username, :email, :password, :status)
   end
 end
