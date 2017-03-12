@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     redirect_to root_path, flash: { error: 'Доступ запрещен' } unless
-                current_user.id == @user.id
+                current_user && current_user.id == @user.id
   end
 
   # POST /users
