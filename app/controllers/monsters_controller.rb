@@ -3,7 +3,7 @@ class
   MonstersController < ApplicationController
 
   load_and_authorize_resource
-  skip_authorize_resource only: [:home, :search]
+  skip_authorize_resource only: [:home, :search, :like, :dislike]
 
   # Вывод всех монстров
   def index
@@ -42,9 +42,8 @@ class
       respond_to :html
     else
       redirect_to :back,
-                  flash: {
-                    error: 'Недостаточно прав для редактирования записи'
-                  }
+                  flash: { error: 'Недостаточно прав для
+                     редактирования записи' }
     end
   end
 
@@ -54,17 +53,8 @@ class
     @monster.own = @current_user.id
     @monster.save
     respond_to do |format|
-      if @monster.save
-        format.html do
-          redirect_to @monster,
-                      notice: 'Монстр создан.'
-        end
-        format.json do
-          render :show,
-                 status: :created,
-                 location: @monster
-        end
-      end
+      format.html redirect_to @monster, notice: 'Монстр создан.' if
+      @monster.save
     end
   end
 
@@ -73,72 +63,15 @@ class
     @monster = Monster.update(monster_params)
     respond_to do |format|
       if @monster.update(monster_params)
-        format.html do
-          redirect_to @monster,
-                      notice: 'Монстр обновлен.'
-        end
-        format.json do
-          render :show,
-                 status: :ok,
-                 location: @monster
-        end
+        format.html redirect_to @monster, notice: 'Монстр обновлен.'
+        format.json render :show, status: :ok, location: @monster
       end
-    end
-  end
-
-  # Действие like
-  def like
-    monster = Monster.find(params[:id])
-    if vote_stamp_check?(monster.id)
-      monster.increment!(:like)
-      vote_stamp(monster.id)
-      respond_to do |format|
-        format.json do
-          render json: monster,
-                 status: :created
-        end
-      end
-    else
-      respond_to do |format|
-        format.json do
-          render json: monster, status: :error
-        end
-      end
-    end
-  end
-
-  # Действие dislike
-  def dislike
-    @monster = Monster.find(params[:id])
-    if vote_stamp_check?(@monster.id)
-      @monster.increment!(:dislike)
-      vote_stamp(@monster.id)
-      redirect_to :back, flash: { notice: 'Вы успешно проголосовали!' }
-    else
-      redirect_to :back, flash: { error: 'Вы уже проголосовали!' }
-    end
-  end
-
-  # Действие добавления монстра в избранное
-  def add_favorite
-    @user                 = User.find(current_user.id)
-    @monster              = Monster.find(params[:id])
-    favoritelist          = @user.favorites.where(monster_id: params[:id])
-    favorite              = true if favoritelist.blank?
-    favorite              = @user.favorites.new if favorite
-    favorite.monster_id   = @monster.id
-    favorite.monster_name = @monster.name
-    favorite.save
-    respond_to do |format|
-      format.json do
-        render json: @monster, status: :created
-      end
-      fix_count
     end
   end
 
   private
 
+  # Проверка владельца монстра
   def check_own?(id)
     @current_user.id == id
   end
@@ -148,23 +81,6 @@ class
     user           = User.find(current_user.id)
     user.fav_count = user.fav_count + 1
     user.save
-  end
-
-  # Проверка голосовал ли пользователь
-  def vote_stamp_check?(monster)
-    @monster = Monster.find(monster)
-    return true unless @monster.vote_stamps.to_s.include? current_user.id
-  end
-
-  # Отметка, что пользователь проголосовал
-  def vote_stamp(monster)
-    user     = current_user.id
-    user     = user.to_s
-    @monster = Monster.find(monster)
-    stamps   = @monster.vote_stamps
-    stamps   = stamps.to_s
-    @monster.vote_stamps = stamps + ',' + user
-    @monster.save
   end
 
   def monster_params

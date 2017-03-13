@@ -10,6 +10,14 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
+  # Если недостаточно прав
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { head :forbidden, content_type: 'text/html' }
+      format.html { redirect_to :back, notice: "Недостаточно прав" }
+    end
+  end
+
   # Проверка статуса пользователя
   def user_status
     @user_status = if @current_user && @current_user.admin?
