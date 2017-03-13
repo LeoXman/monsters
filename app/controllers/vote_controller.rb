@@ -1,2 +1,5 @@
-class VoteController < ApplicationController
+# Голоса
+class
+  VoteController < ApplicationController
+
 end
