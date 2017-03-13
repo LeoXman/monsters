@@ -1,5 +1,2 @@
-# Голосование
-class
-  PollController < ApplicationController
-
+class PollController < ApplicationController
 end

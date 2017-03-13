@@ -19,9 +19,8 @@ Bundler.require(*Rails.groups)
 module Ro
   class Application < Rails::Application
     config.generators do |g|
-      g.stylesheets     false
-      g.javascripts     false
-      g.helper          false
+      g.test_framework :rspec
+      g.assets false
     end
     config.active_record.raise_in_transactional_callbacks = true
     config.generators do |g|
