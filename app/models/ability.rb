@@ -9,8 +9,6 @@ class Ability
       can :manage, Monster
     else
       can :read, Monster
-      can :dislike, Monster do |monster|
-
       end
     end
   end

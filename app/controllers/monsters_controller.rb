@@ -3,7 +3,7 @@ class
   MonstersController < ApplicationController
 
   load_and_authorize_resource
-  skip_authorize_resource only: [:home, :search, :like, :dislike]
+  skip_authorize_resource only: [:home, :search]
 
   # Вывод всех монстров
   def index
@@ -29,7 +29,7 @@ class
     @own = User.find_by(id: user_id)
   end
 
-  # Форма создание нового монстра
+  # Форма создания нового монстра
   def new
     authorize! :new, Monster
     @monster = Monster.new
@@ -47,17 +47,6 @@ class
     end
   end
 
-  # Добавление нового монстра в базу
-  def create
-    @monster     = Monster.create(monster_params)
-    @monster.own = @current_user.id
-    @monster.save
-    respond_to do |format|
-      format.html redirect_to @monster, notice: 'Монстр создан.' if
-      @monster.save
-    end
-  end
-
   # Обновление монстра
   def update
     @monster = Monster.update(monster_params)
@@ -72,7 +61,7 @@ class
   private
 
   # Проверка владельца монстра
-  def check_own?(id)
+  def check_monster_owner?(id)
     @current_user.id == id
   end
 
@@ -85,12 +74,10 @@ class
 
   def monster_params
     params.require(:monster).permit(:name, :hp, :def, :mdef, :str, :agi,
-                                    :vit, :int, :dex, :luk, :scale, :own)
+                                    :vit, :int, :dex, :luk, :scale)
   end
 
   def comment_params
-    params.require(:monster).permit(
-      :text
-    )
+    params.require(:monster).permit(:сщт)
   end
 end
