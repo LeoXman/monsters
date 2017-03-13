@@ -1,18 +1,24 @@
+# Монстры
 class Monster < ActiveRecord::Base
   has_many :comments
+  has_one :poll
   accepts_nested_attributes_for :comments
   def self.name_starts_with(letter)
-    where("UPPER(name) LIKE UPPER(?)", "#{letter}%")
+    where('UPPER(name) LIKE UPPER(?)', "#{letter}%")
   end
+
   def self.letter(letter)
     name_starts_with(letter).by_name
   end
+
   def self.letterize(letter)
     letter =~ /\A[A-Za-z]\z/ ? letter.upcase : 'A'
   end
+
   def self.by_name
     order(name: :asc)
   end
+
   # Validations
   validates :name, presence: true
   validates :level, numericality: true

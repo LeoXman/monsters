@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
   end
 
   # Если недостаточно прав
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do
     respond_to do |format|
       format.json { head :forbidden, content_type: 'text/html' }
-      format.html { redirect_to :back, notice: "Недостаточно прав" }
+      format.html { redirect_to :back, notice: 'Недостаточно прав' }
     end
   end
 

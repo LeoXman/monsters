@@ -1,3 +1,4 @@
+# Админка
 class AdministratorController < ApplicationController
   before_action :access
   def index

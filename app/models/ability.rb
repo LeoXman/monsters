@@ -9,7 +9,6 @@ class Ability
       can :manage, Monster
     else
       can :read, Monster
-      end
     end
   end
 end
