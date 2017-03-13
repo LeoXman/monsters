@@ -49,11 +49,11 @@ class
 
   # Обновление монстра
   def update
-    @monster = Monster.update(monster_params)
+    monster = Monster.update(monster_params)
     respond_to do |format|
-      if @monster.update(monster_params)
-        format.html redirect_to @monster, notice: 'Монстр обновлен.'
-        format.json render :show, status: :ok, location: @monster
+      if monster.update(monster_params)
+        format.html redirect_to monster, notice: 'Монстр обновлен.'
+        format.json render :show, status: :ok, location: monster
       end
     end
   end
@@ -78,6 +78,6 @@ class
   end
 
   def comment_params
-    params.require(:monster).permit(:сщт)
+    params.require(:monster).permit(:content)
   end
 end
