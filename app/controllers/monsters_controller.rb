@@ -57,7 +57,7 @@ class
       if @monster.save
         format.html do
           redirect_to @monster,
-                      notice: 'Монстер создан.'
+                      notice: 'Монстр создан.'
         end
         format.json do
           render :show,
@@ -75,7 +75,7 @@ class
       if @monster.update(monster_params)
         format.html do
           redirect_to @monster,
-                      notice: 'Монстер обновлен.'
+                      notice: 'Монстр обновлен.'
         end
         format.json do
           render :show,
@@ -88,20 +88,20 @@ class
 
   # Действие like
   def like
-    @monster = Monster.find(params[:id])
-    if vote_stamp_check(@monster.id)
-      @monster.increment!(:like)
-      vote_stamp(@monster.id)
+    monster = Monster.find(params[:id])
+    if vote_stamp_check?(monster.id)
+      monster.increment!(:like)
+      vote_stamp(monster.id)
       respond_to do |format|
         format.json do
-          render json: @monster,
+          render json: monster,
                  status: :created
         end
       end
     else
       respond_to do |format|
         format.json do
-          render json: @monster, status: :error
+          render json: monster, status: :error
         end
       end
     end
@@ -110,7 +110,7 @@ class
   # Действие dislike
   def dislike
     @monster = Monster.find(params[:id])
-    if vote_stamp_check(@monster.id)
+    if vote_stamp_check?(@monster.id)
       @monster.increment!(:dislike)
       vote_stamp(@monster.id)
       redirect_to :back, flash: { notice: 'Вы успешно проголосовали!' }
@@ -151,13 +151,9 @@ class
   end
 
   # Проверка голосовал ли пользователь
-  def vote_stamp_check(monster)
-    user     = current_user.id
-    user     = user.to_s
+  def vote_stamp_check?(monster)
     @monster = Monster.find(monster)
-    stamps = @monster.vote_stamps.to_s
-    return false if stamps.include? user
-    return true unless stamps.include? user
+    return true unless @monster.vote_stamps.to_s.include? current_user.id
   end
 
   # Отметка, что пользователь проголосовал
