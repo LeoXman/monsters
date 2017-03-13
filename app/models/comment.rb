@@ -1,3 +1,4 @@
+# Комментарии пользователей
 class Comment < ActiveRecord::Base
   belongs_to :monster
   # validates

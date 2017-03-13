@@ -1,15 +1,12 @@
+# Комментарии к монстрам
 class CommentsController < ApplicationController
+  # Создание нового комментария
   def create
     @monster = Monster.find(params[:monster_id])
     comment = @monster.comments.new(comment_params)
     comment.title = @current_user.username
     comment.save
-
     redirect_to monster_path(@monster)
-  end
-
-  def destroy
-
   end
 
   private

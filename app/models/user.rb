@@ -1,3 +1,4 @@
+# Пользователи
 class User < ActiveRecord::Base
   as_enum :status, admin: 1, user: 0
   has_many :favorites
