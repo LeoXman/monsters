@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
         password: params[:sessions][:password]
       )
     if user
-      session[:user_id] = user.id redirect_to root_path
+      session[:user_id] = user.id
+      redirect_to root_path
     else
       redirect_to :back, flash: { error: 'Пользователь не найден.' }
     end
@@ -17,6 +18,6 @@ class SessionsController < ApplicationController
   # Удаление сессии
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, flash: { success: 'Вы успешно вышли из аккаунта.' }
+    redirect_to root_path
   end
 end

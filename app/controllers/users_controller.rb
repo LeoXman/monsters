@@ -2,6 +2,11 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  # Список пользователей
+  def index
+    @users = User.all
+  end
+
   # Профиль пользователя
   def show
     redirect_to root_path, flash: { error: 'Доступ запрещен' } unless
@@ -22,20 +27,20 @@ class UsersController < ApplicationController
     end
   end
 
-  # Обновление пользователей
+  # Обновление пользователя
   def update
     respond_to do |format|
       if @user.update(user_params)
         format.html
         redirect_to @user,
-                    notice: 'Данные пользователя обновлены.'
+                    notice: 'Данные обновлены.'
       else
         format.html { render :edit }
       end
     end
   end
 
-  # Удаление пользователей
+  # Удаление пользователя
   def destroy
     @user.destroy
     respond_to do |format|
