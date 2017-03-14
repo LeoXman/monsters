@@ -2,11 +2,7 @@
 class SessionsController < ApplicationController
   # Новая сессия
   def create
-    user =
-      User.find_by(
-        username: params[:sessions][:username],
-        password: params[:sessions][:password]
-      )
+    user = set_user
     if user
       session[:user_id] = user.id
       redirect_to root_path
@@ -20,4 +16,14 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_path
   end
+end
+
+private
+
+# Лоин и пароль пользователя
+def set_user
+  User.find_by(
+    username: params[:sessions][:username],
+    password: params[:sessions][:password]
+  )
 end
