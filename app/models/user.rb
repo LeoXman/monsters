@@ -8,4 +8,7 @@ class User < ActiveRecord::Base
   # validates
   validates :username, presence: true
   validates :email, uniqueness: true
+
+  # Скоупы
+  scope :set_user, -> { find_by(username: params[:sessions][:username], password: params[:sessions][:password]) }
 end

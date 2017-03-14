@@ -1,10 +1,10 @@
 # Users sessions
 class SessionsController < ApplicationController
+  before_action :set_user, only: [:create]
   # Новая сессия
   def create
-    user = set_user
-    if user
-      session[:user_id] = user.id
+    if @user
+      session[:user_id] = @user.id
       redirect_to root_path
     else
       redirect_to :back, flash: { error: 'Пользователь не найден.' }
@@ -22,7 +22,7 @@ private
 
 # Лоин и пароль пользователя
 def set_user
-  User.find_by(
+  @user = User.find_by(
     username: params[:sessions][:username],
     password: params[:sessions][:password]
   )
