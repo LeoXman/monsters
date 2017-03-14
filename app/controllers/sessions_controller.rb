@@ -1,7 +1,7 @@
 # Users sessions
 class SessionsController < ApplicationController
   before_action :set_user, only: [:create]
-  # Новая сессия
+  # Новая сессия пользователя
   def create
     if @user
       session[:user_id] = @user.id
