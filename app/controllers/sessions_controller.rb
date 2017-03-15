@@ -2,7 +2,7 @@
 class SessionsController < ApplicationController
   # Новая сессия пользователя
   def create
-    user = User.set_user(params)
+    user = User.sing_in_user(params)
     if user
       session[:user_id] = user.id
       redirect_to root_path

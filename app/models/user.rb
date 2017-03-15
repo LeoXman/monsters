@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
 
   # Скоупы
-  scope :set_user,
+  scope :sing_in_user,
         ->(params) {
           find_by(username: params[:sessions][:username],
                   password: params[:sessions][:password])

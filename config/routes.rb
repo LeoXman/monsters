@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   get '/administrator', to: 'administrator#index'
 
   # auth
-  get '/auth', to: 'users#auth'
+  get '/authsite', to: 'users#auth'
+  get '/auth/:provider/callback', to: 'sessions#create'
 
   # search result page
   post '/search', to: 'monsters#search'

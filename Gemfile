@@ -27,6 +27,11 @@ gem 'angularjs-rails'
 gem 'turbolinks', '~> 5.0.0'
 
 # auth
+gem 'omniauth-github', github: 'intridea/omniauth-github'
+gem 'omniauth-openid', github: 'intridea/omniauth-openid'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
 gem 'cancancan'
 
 # Slim
