@@ -10,8 +10,7 @@ Rails.application.routes.draw do
 
   resources :monsters do
     resources :comments
-    get :like, on: :member
-    get :dislike, on: :member
+    resources :vote
     get :add_favorite, on: :member
   end
 

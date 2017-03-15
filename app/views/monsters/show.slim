@@ -50,17 +50,6 @@
             - else
               p Владелец: admin
           .col-md-6.text-right
-            .votes
-              span
-                = link_to like_monster_path do
-                  = content_tag(:i, "insert_emoticon", :class=>'material-icons')
-                span.count
-                  = @monster.like
-              span
-                = link_to dislike_monster_path do
-                  = content_tag(:i, "sentiment_very_dissatisfied", :class=>'material-icons')
-                span.count
-                  = @monster.dislike
             p.text-right
               = link_to "Редактировать монстра", edit_monster_path, :class => "btn btn-raised btn-warning"
   .col-md-12.well-page(ng-controller="CommentsCtrl")
@@ -85,3 +74,4 @@
                 = comment.text
               p 
                 | удалить
+= @votecount

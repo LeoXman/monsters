@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 20170313130948) do
 
   create_table "votes", force: :cascade do |t|
     t.boolean  "like"
-    t.boolean  "dislike"
     t.integer  "user_id"
+    t.integer  "poll_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -27,6 +27,7 @@ class
     @monster = Monster.find(params[:id])
     user_id = @monster.own
     @own = User.find_by(id: user_id)
+    @votecount = Poll.where(monster_id: params[:id]).count
   end
 
   # Форма создания нового монстра

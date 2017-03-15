@@ -39,51 +39,7 @@
         .col-md-6
           .row    
             p.buttons.text-right
-              - if @current_user
-                - if @current_user.id == monster.own
-                  span
-                    = link_to add_favorite_monster_path(monster), remote: true, class: "add-favorite" do
-                      = content_tag(:i, "", :class=>'fa fa-user-circle')
-              - if @current_user        
-                span  
-                  = link_to like_monster_path(monster), remote: true, class: "add-like" do
-                    - if check_like(monster)
-                      = content_tag(:i, "", :class=>'fa fa-thumbs-up')
-                    - else
-                      = content_tag(:i, "", :class=>'fa fa-thumbs-o-up')
-                  span.count
-                    = monster.like
-              - else
-                span  
-                  = link_to like_monster_path(monster), remote: true, class: "add-like" do
-                    = content_tag(:i, "", :class=>'fa fa-thumbs-up')
-                  span.count
-                    = monster.like
-              - if @current_user
-                span  
-                  = link_to dislike_monster_path(monster), class: "add-dislike" do
-                    - if check_like(monster)
-                      = content_tag(:i, "", :class=>'fa fa-thumbs-up')
-                    - else
-                      = content_tag(:i, "", :class=>'fa fa-thumbs-o-up')
-                  span.count
-                    = monster.dislike
-              - else
-                span  
-                  = link_to dislike_monster_path(monster), class: "add-dislike" do
-                    = content_tag(:i, "", :class=>'fa fa-thumbs-up')
-                  span.count
-                    = monster.dislike
-              - if @current_user      
-                span
-                  = link_to add_favorite_monster_path(monster), remote: true, class: "add-favorite" do
-                    - if check_favorite(monster.id)
-                      = content_tag(:i, "", :class=>'fa fa-heart')
-                    - else
-                      = content_tag(:i, "", :class=>'fa fa-heart-o')
-              - if @current_user
-                span
-                  = link_to edit_monster_path(monster) do
-                    = content_tag(:i, "", :class=>'fa fa-pencil-square-o')
+              = link_to new_monster_vote_path(monster), remote: true, class: "add-like" do
+                = content_tag(:i, "", :class=>'fa fa-heart-o')
     .text-center
       = paginate @monsters, :theme => 'twitter-bootstrap-3'
