@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
   # Удаление сессии
   def sign_out
     session[:user_id] = nil
-    redirect_to root_url, notice: 'Успешный выход'
+    redirect_to root_url
   end
 
   # Провал сессии

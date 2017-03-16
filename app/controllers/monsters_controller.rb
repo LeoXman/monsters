@@ -24,10 +24,9 @@ class
   # Страница описания монстра
   def show
     authorize! :read, @monster
-    @monster   = Monster.find(params[:id])
-    user_id    = @monster.own
-    @own       = User.find_by(id: user_id)
-    @votecount = Poll.where(monster_id: params[:id]).count
+    @monster       = Monster.find(params[:id])
+    @owner_monster = User.find_by(id: @monster.own)
+    @votecount     = 1
   end
 
   # Форма создания нового монстра
