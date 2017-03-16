@@ -19,18 +19,15 @@ Rails.application.routes.draw do
 
   # auth
   get '/authsite', to: 'users#auth' # Локальная форма авторизации
-  post '/authlocal', to: 'sessions#createlocal' # Создание локальной сессии
-  post '/oauth/request_token' => 'sessions#new'
-  match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
-  match '/auth/failure' => 'sessions#failure', via: [:get, :post]
-  match '/login' => 'sessions#new', :as => :login, via: [:get, :post] # Ссылки на авторизации через соц сети
-  match '/logout' => 'sessions#destroy', :as => :logout, via: [:get, :post]
 
   # search result page
   post '/search', to: 'monsters#search'
 
-  # resources :sessions
-  post '/sessions/create', to: 'sessions#create'
-  get '/sessions/delete', to: 'sessions#destroy'
+  # Сессии
+  post '/auth_social', to: 'sessions#create' # Создание сессии с помощью соц.сетей
+  post '/auth_local', to: 'sessions#create_via_password' # Создание сессии с помощью пароля
+  get '/sessions/signout' => 'sessions#sign_out'
+  match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
+  match '/auth/failure' => 'sessions#failure', via: [:get, :post]
 
 end
