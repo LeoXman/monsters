@@ -3,7 +3,7 @@ class VoteController < ApplicationController
   # Создание голоса
   def new
     poll = Poll.find_by_monster_id(params[:monster_id])
-    if poll
+    if poll.blank?
       Poll.create(monster_id: params[:monster_id])
       poll = Poll.find_by(monster_id: params[:monster_id])
     end

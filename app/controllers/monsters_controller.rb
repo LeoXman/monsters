@@ -9,7 +9,7 @@ class
   def index
     authorize! :index, Monster
     @letter   = Monster.letterize(params[:letter])
-    @monsters = Monster.letter(@letter).page(1).per(10)
+    @monsters = Monster.letter(@letter).page(params[:page]).per(20)
   end
 
   # Страница результатов поиска монстров
@@ -43,8 +43,9 @@ class
       respond_to :html
     else
       redirect_to :back,
-                  flash: { error: 'Недостаточно прав для
-                     редактирования записи' }
+                  flash: {
+                    error: 'Недостаточно прав для редактирования записи'
+                  }
     end
   end
 

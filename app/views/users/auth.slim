@@ -5,7 +5,7 @@
         h2 Вход
         .col-md-12
           .row
-            = simple_form_for :sessions, :url => { :controller => "sessions", :action => "create" }, html: { multipart: true } do |f|
+            = simple_form_for :sessions, :url => { :controller => "sessions", :action => "createlocal" }, html: { multipart: true } do |f|
               .form-inputs
                 = f.input :username, required: true, autofocus: true
                 = f.input :password, required: true

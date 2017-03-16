@@ -84,6 +84,8 @@ ActiveRecord::Schema.define(version: 20170313130948) do
     t.string   "password"
     t.string   "email"
     t.integer  "status_cd"
+    t.string   "provider"
+    t.string   "uid"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "fav_count",  default: 0
