@@ -65,9 +65,9 @@ ActiveRecord::Schema.define(version: 20170313130948) do
     t.integer  "scale"
     t.integer  "race"
     t.integer  "element"
+    t.integer  "user_id"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.integer  "own"
     t.integer  "like",        default: 0
     t.integer  "dislike",     default: 0
     t.text     "vote_stamps"
@@ -84,6 +84,8 @@ ActiveRecord::Schema.define(version: 20170313130948) do
     t.string   "password"
     t.string   "email"
     t.integer  "status_cd"
+    t.string   "provider"
+    t.string   "uid"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "fav_count",  default: 0
@@ -91,8 +93,8 @@ ActiveRecord::Schema.define(version: 20170313130948) do
 
   create_table "votes", force: :cascade do |t|
     t.boolean  "like"
-    t.boolean  "dislike"
     t.integer  "user_id"
+    t.integer  "poll_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

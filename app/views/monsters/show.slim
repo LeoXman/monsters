@@ -3,12 +3,14 @@
     .col-md-12
       .title
         h1 #{@monster.name}
-    .col-md-8
+    .col-md-12.text-center
       img src="http://rurowiki.ru/media/monsters/#{1000 + @monster.id.to_i}.gif"
-    .col-md-4
-      h2 Характеристики
+      h2 Характеристики  
+    .col-md-6
       table.table.table-striped
         tbody
+          tr
+            td lvl: #{@monster.name}
           tr
             td lvl: #{@monster.level}
           tr
@@ -16,64 +18,52 @@
           tr
             td exp: #{@monster.exp}
           tr
-            td def: #{@monster.def}
+            td def: #{@monster.jexp}
           tr
-            td mdef: #{@monster.mdef}
+            td mdef: #{@monster.atk1}
           tr
-            td str: #{@monster.str}
+            td str: #{@monster.atk2}
           tr
-            td agi: #{@monster.agi}
+            td agi: #{@monster.def}
           tr
-            td vit: #{@monster.vit}
+            td vit: #{@monster.mdef}
+    .col-md-6
+      table.table.table-striped
+        tbody
           tr
-            td int: #{@monster.int}
+            td lvl: #{@monster.str}
           tr
-            td dex: #{@monster.dex}
+            td hp: #{@monster.agi}
           tr
-            td luk: #{@monster.luk}
+            td exp: #{@monster.vit}
           tr
-            td scale: #{@monster.scale}
+            td def: #{@monster.int}
           tr
-            td own: #{@monster.own}
+            td mdef: #{@monster.dex}
           tr
-            td like: #{@monster.like}
+            td str: #{@monster.luk}
           tr
-            td like: #{@monster.dislike}
+            td agi: #{@monster.scale}
           tr
-            td vote_stamps: #{@monster.vote_stamps}
+            td vit: #{@monster.race}
+          tr
+            td int: #{@monster.element}
     .col-md-12
-      hr
-        .row
-          .col-md-6
-            - if @own
-              p Владелец: #{@own.username}
-            - else
-              p Владелец: admin
-          .col-md-6.text-right
-            .votes
-              span
-                = link_to like_monster_path do
-                  = content_tag(:i, "insert_emoticon", :class=>'material-icons')
-                span.count
-                  = @monster.like
-              span
-                = link_to dislike_monster_path do
-                  = content_tag(:i, "sentiment_very_dissatisfied", :class=>'material-icons')
-                span.count
-                  = @monster.dislike
-            p.text-right
-              = link_to "Редактировать монстра", edit_monster_path, :class => "btn btn-raised btn-warning"
   .col-md-12.well-page(ng-controller="CommentsCtrl")
     .col-md-12
       .title
         h2 Комментарии
       .col-md-12
         .row
-          = simple_form_for ([@monster, @monster.comments.build]) do |f|
-            = f.input :text, placeholder: "Новый комментарий", input_html: { "ng-keyup" => "word_count()", "ng-init" => "comment_words_count=0" } 
-            .count-words
-              | Колличество символов: {{comment_words_count}}
-            = f.button :submit, :class => "btn btn-raised btn-warning"
+          - if @current_user
+            = simple_form_for ([@monster, @monster.comments.build]) do |f|
+              = f.input :text, placeholder: "Новый комментарий", input_html: { "ng-keyup" => "word_count()", "ng-init" => "comment_words_count=0" } 
+              .count-words
+                | Колличество символов: {{comment_words_count}}
+              = f.button :submit, :class => "btn btn-raised btn-warning"
+          - else
+            .text-center
+              = link_to "Зарегистрируйтесь чтобы оставить комментарий", new_user_path, :class => "btn btn-raised btn-warning"
       - @monster.comments.each do |comment|
         - if comment.text
           .col-md-12.comment

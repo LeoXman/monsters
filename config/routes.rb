@@ -10,8 +10,7 @@ Rails.application.routes.draw do
 
   resources :monsters do
     resources :comments
-    get :like, on: :member
-    get :dislike, on: :member
+    resources :vote
     get :add_favorite, on: :member
   end
 
@@ -19,13 +18,16 @@ Rails.application.routes.draw do
   get '/administrator', to: 'administrator#index'
 
   # auth
-  get '/auth', to: 'users#auth'
+  get '/auth_site',     to: 'users#auth' # Локальная форма авторизации
 
   # search result page
-  post '/search', to: 'monsters#search'
+  post '/search',       to: 'monsters#search'
 
-  # resources :sessions
-  post '/sessions/create', to: 'sessions#create'
-  get '/sessions/delete', to: 'sessions#destroy'
+  # Сессии
+  post '/auth_social',              to: 'sessions#create' # Создание сессии с помощью соц.сетей
+  post '/auth_local',               to: 'sessions#create_via_password' # Создание сессии с помощью пароля
+  get '/sessions/signout',          to: 'sessions#sign_out'
+  match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  match '/auth/failure',            to: 'sessions#failure', via: [:get, :post]
 
 end

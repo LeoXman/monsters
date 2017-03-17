@@ -6,3 +6,4 @@ Gemfile.lock
 /.bundle
 config/database.yml
 /db/*.sqlite3
+config/oauth.yml

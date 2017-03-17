@@ -1,8 +1,15 @@
 # Users sessions
 class SessionsController < ApplicationController
-  # Новая сессия
+  # Создание новой сессии
   def create
-    user = set_user
+    user              = User.from_omniauth(env['omniauth.auth'])
+    session[:user_id] = user.id
+    redirect_to root_path, notice: 'Signed in!'
+  end
+
+  # Новая сессия(локальная авторизация)
+  def create_via_password
+    user                = User.sing_in_user(params)
     if user
       session[:user_id] = user.id
       redirect_to root_path
@@ -12,18 +19,13 @@ class SessionsController < ApplicationController
   end
 
   # Удаление сессии
-  def destroy
+  def sign_out
     session[:user_id] = nil
     redirect_to root_path
   end
-end
 
-private
-
-# Лоин и пароль пользователя
-def set_user
-  User.find_by(
-    username: params[:sessions][:username],
-    password: params[:sessions][:password]
-  )
+  # Провал сессии
+  def failure
+    render text: 'Ошибка авторизации'
+  end
 end

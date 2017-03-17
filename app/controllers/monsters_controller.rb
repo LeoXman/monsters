@@ -9,7 +9,7 @@ class
   def index
     authorize! :index, Monster
     @letter   = Monster.letterize(params[:letter])
-    @monsters = Monster.letter(@letter).page(1).per(10)
+    @monsters = Monster.letter(@letter).page(params[:page]).per(20)
   end
 
   # Страница результатов поиска монстров
@@ -18,15 +18,13 @@ class
       Monster.where(
         name: params[:search][:name]
       )
-    @monsters = search_monsters.page(1).per(10)
+    @monsters       = search_monsters.page(1).per(10)
   end
 
   # Страница описания монстра
   def show
     authorize! :read, @monster
     @monster = Monster.find(params[:id])
-    user_id = @monster.own
-    @own = User.find_by(id: user_id)
   end
 
   # Форма создания нового монстра
@@ -42,8 +40,9 @@ class
       respond_to :html
     else
       redirect_to :back,
-                  flash: { error: 'Недостаточно прав для
-                     редактирования записи' }
+                  flash: {
+                    error: 'Недостаточно прав для редактирования записи'
+                  }
     end
   end
 

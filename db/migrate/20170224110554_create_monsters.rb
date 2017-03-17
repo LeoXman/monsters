@@ -19,6 +19,7 @@ class CreateMonsters < ActiveRecord::Migration
       t.integer :scale
       t.integer :race
       t.integer :element
+      t.belongs_to :user
 
       t.timestamps null: false
     end
