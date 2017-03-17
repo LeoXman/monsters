@@ -18,15 +18,13 @@ class
       Monster.where(
         name: params[:search][:name]
       )
-    @monsters = search_monsters.page(1).per(10)
+    @monsters       = search_monsters.page(1).per(10)
   end
 
   # Страница описания монстра
   def show
     authorize! :read, @monster
-    @monster       = Monster.find(params[:id])
-    @owner_monster = User.find_by(id: @monster.own)
-    @votecount     = 1
+    @monster = Monster.find(params[:id])
   end
 
   # Форма создания нового монстра

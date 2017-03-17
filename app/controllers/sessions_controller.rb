@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def create
     user              = User.from_omniauth(env['omniauth.auth'])
     session[:user_id] = user.id
-    redirect_to root_url, notice: 'Signed in!'
+    redirect_to root_path, notice: 'Signed in!'
   end
 
   # Новая сессия(локальная авторизация)
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
   # Удаление сессии
   def sign_out
     session[:user_id] = nil
-    redirect_to root_url
+    redirect_to root_path
   end
 
   # Провал сессии

@@ -1,6 +1,7 @@
 # Монстры
 class Monster < ActiveRecord::Base
   has_many :comments
+  belongs_to :user
   accepts_nested_attributes_for :comments
   def self.name_starts_with(letter)
     where('UPPER(name) LIKE UPPER(?)', "#{letter}%")

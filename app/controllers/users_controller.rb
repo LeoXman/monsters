@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   def list_monsters
     user_monsters =
       Monster.where(
-        own: @current_user.id
+        user_id: @current_user.id
       )
     @monsters = user_monsters.page(1).per(10)
   end

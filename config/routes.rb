@@ -18,16 +18,16 @@ Rails.application.routes.draw do
   get '/administrator', to: 'administrator#index'
 
   # auth
-  get '/authsite',      to: 'users#auth' # Локальная форма авторизации
+  get '/auth_site',     to: 'users#auth' # Локальная форма авторизации
 
   # search result page
   post '/search',       to: 'monsters#search'
 
   # Сессии
-  post '/auth_social',  to: 'sessions#create' # Создание сессии с помощью соц.сетей
-  post '/auth_local',   to: 'sessions#create_via_password' # Создание сессии с помощью пароля
-  get '/sessions/signout' => 'sessions#sign_out'
-  match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
-  match '/auth/failure' => 'sessions#failure', via: [:get, :post]
+  post '/auth_social',              to: 'sessions#create' # Создание сессии с помощью соц.сетей
+  post '/auth_local',               to: 'sessions#create_via_password' # Создание сессии с помощью пароля
+  get '/sessions/signout',          to: 'sessions#sign_out'
+  match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  match '/auth/failure',            to: 'sessions#failure', via: [:get, :post]
 
 end
